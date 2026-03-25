@@ -1,5 +1,9 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { fetchGitHubRepos, type GitHubRepo } from "@/lib/github";
 import Reveal from "@/components/Reveal";
+import { playHoverSound } from "@/lib/sounds";
 
 const langColors: Record<string, string> = {
   Kotlin: "#A97BFF",
@@ -16,11 +20,25 @@ const langColors: Record<string, string> = {
 
 const hiddenRepos = ["avelon1A", "important-andorid-dependency", "docs"];
 
-export default async function GitHubRepos() {
-  const repos = await fetchGitHubRepos("avelon1A");
-  const filtered = repos.filter((r) => !hiddenRepos.includes(r.name));
+export default function GitHubRepos() {
+  const [repos, setRepos] = useState<GitHubRepo[]>([]);
+  const [hovered, setHovered] = useState<string | null>(null);
 
-  if (filtered.length === 0) {
+  useEffect(() => {
+    fetchGitHubRepos("avelon1A").then((data) => {
+      setRepos(data.filter((r) => !hiddenRepos.includes(r.name)));
+    });
+  }, []);
+
+  const handleHover = (id: string) => {
+    if (hovered !== id) {
+      playHoverSound();
+      setHovered(id);
+      setTimeout(() => setHovered(null), 150);
+    }
+  };
+
+  if (repos.length === 0) {
     return (
       <div className="text-center py-8">
         <p className="text-xs text-[var(--text-tertiary)]">Unable to load repositories.</p>
@@ -30,13 +48,14 @@ export default async function GitHubRepos() {
 
   return (
     <div className="bento bento-3">
-      {filtered.slice(0, 9).map((repo: GitHubRepo, i: number) => (
+      {repos.slice(0, 9).map((repo: GitHubRepo, i: number) => (
         <Reveal key={repo.id} animation="fade-up" delay={i * 50}>
           <a
             href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
             className="glass p-4 group block h-full"
+            onMouseEnter={() => handleHover(String(repo.id))}
           >
             <div className="flex items-start justify-between gap-2 mb-1.5">
               <h3 className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors truncate">

@@ -1,4 +1,6 @@
 import Reveal from "@/components/Reveal";
+import { playHoverSound } from "@/lib/sounds";
+import { useState } from "react";
 
 const cats = [
   { title: "Languages", items: ["Kotlin", "Java", "Swift", "Python"], icon: "💻" },
@@ -11,6 +13,16 @@ const cats = [
 ];
 
 export default function Skills() {
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  const handleHover = (id: string) => {
+    if (hovered !== id) {
+      playHoverSound();
+      setHovered(id);
+      setTimeout(() => setHovered(null), 150);
+    }
+  };
+
   return (
     <section id="skills" className="relative py-24 px-6">
       <div className="max-w-[1200px] mx-auto">
@@ -24,7 +36,7 @@ export default function Skills() {
         <div className="bento bento-4">
           {cats.map((c, i) => (
             <Reveal key={c.title} animation="fade-up" delay={i * 60}>
-              <div className={`glass p-5 icon-bounce-hover ${c.wide ? "bento-wide" : ""}`}>
+              <div className={`glass p-5 icon-bounce-hover ${c.wide ? "bento-wide" : ""}`} onMouseEnter={() => handleHover(c.title)}>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-base">{c.icon}</span>
                   <h3 className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider">{c.title}</h3>

@@ -1,4 +1,6 @@
 import Reveal from "@/components/Reveal";
+import { playHoverSound } from "@/lib/sounds";
+import { useState } from "react";
 
 const projects = [
   {
@@ -44,6 +46,16 @@ const projects = [
 ];
 
 export default function Projects() {
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  const handleHover = (id: string) => {
+    if (hovered !== id) {
+      playHoverSound();
+      setHovered(id);
+      setTimeout(() => setHovered(null), 150);
+    }
+  };
+
   return (
     <section id="projects" className="relative py-24 px-6">
       <div className="max-w-[1200px] mx-auto">
@@ -57,7 +69,7 @@ export default function Projects() {
         <div className="bento bento-2">
           {/* Network Logger — featured wide */}
           <Reveal animation="fade-up" delay={0}>
-            <div className="glass card-border-glow p-6 md:p-8 h-full">
+            <div className="glass card-border-glow p-6 md:p-8 h-full" onMouseEnter={() => handleHover("network-logger")}>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-semibold text-[var(--text-primary)]">{projects[0].title}</h3>
@@ -92,7 +104,7 @@ export default function Projects() {
 
           {/* prepStack — tall card */}
           <Reveal animation="fade-up" delay={100}>
-            <div className="glass p-6 flex flex-col h-full">
+            <div className="glass p-6 flex flex-col h-full" onMouseEnter={() => handleHover("prepstack")}>
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div>
                   <h3 className="text-base font-semibold text-[var(--text-primary)]">{projects[1].title}</h3>
@@ -122,7 +134,7 @@ export default function Projects() {
           {/* Small cards */}
           {projects.slice(2).map((p, i) => (
             <Reveal key={p.title} animation="fade-up" delay={200 + i * 80}>
-              <div className="glass p-5 flex flex-col h-full">
+              <div className="glass p-5 flex flex-col h-full" onMouseEnter={() => handleHover(p.title)}>
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <h3 className="text-sm font-semibold text-[var(--text-primary)]">{p.title}</h3>
                   <a href={p.links[0].url} target="_blank" rel="noopener noreferrer" className="pill text-[0.625rem] icon-spin-hover">
