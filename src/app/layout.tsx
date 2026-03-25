@@ -7,8 +7,8 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "Aman Toppo — Mobile Engineer",
-  description: "Portfolio of Aman Toppo, Mobile Engineer specializing in Android development, Kotlin, KMP, and open source tools.",
-  keywords: ["Aman Toppo", "Mobile Engineer", "Android Developer", "Kotlin", "Jetpack Compose", "KMP", "Network Logger"],
+  description: "Portfolio of Aman Toppo, Mobile Engineer specializing in Android, Kotlin, KMP, and open source developer tools.",
+  keywords: ["Aman Toppo", "Mobile Engineer", "Android", "Kotlin", "Jetpack Compose", "KMP", "Network Logger"],
   openGraph: {
     title: "Aman Toppo — Mobile Engineer",
     description: "Android & KMP developer building scalable mobile apps and open source tools.",
