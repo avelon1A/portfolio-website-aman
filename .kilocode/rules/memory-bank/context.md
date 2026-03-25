@@ -1,87 +1,61 @@
-# Active Context: Next.js Starter Template
+# Active Context: Aman Toppo Portfolio Website
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**Status**: ✅ Portfolio website built and deployed
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+A professional personal portfolio website for Aman Toppo, a Mobile Engineer with 2.5 years of experience in Android development and cross-platform mobile technologies.
 
 ## Recently Completed
 
 - [x] Base Next.js 16 setup with App Router
 - [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration
+- [x] Tailwind CSS 4 integration with custom theme
 - [x] ESLint configuration
-- [x] Memory bank documentation
-- [x] Recipe system for common features
+- [x] Hero section with professional introduction
+- [x] About section with stats (experience, apps, performance)
+- [x] Experience section with two roles (Bebetta, AMT)
+- [x] Projects section (Bebetta, Pacto) with app store links
+- [x] Skills section with 7 categorized groups
+- [x] Achievements section (Compose Facilitator)
+- [x] Education section (B.Tech IT, GEC Jagdalpur)
+- [x] Contact section with email/social links
+- [x] GitHub repos integration via GitHub API
+- [x] Dedicated Open Source Library page (/open-source)
+- [x] Responsive navigation with mobile hamburger menu
+- [x] Custom CSS animations and glass morphism effects
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| `src/app/page.tsx` | Main portfolio page | ✅ Complete |
+| `src/app/layout.tsx` | Root layout with SEO metadata | ✅ Complete |
+| `src/app/globals.css` | Custom CSS with animations & theme | ✅ Complete |
+| `src/app/open-source/page.tsx` | Open source library page | ✅ Complete |
+| `src/components/Navbar.tsx` | Navigation with mobile support | ✅ Complete |
+| `src/components/Hero.tsx` | Hero/intro section | ✅ Complete |
+| `src/components/About.tsx` | About section with stats | ✅ Complete |
+| `src/components/Experience.tsx` | Work experience timeline | ✅ Complete |
+| `src/components/Projects.tsx` | Featured projects | ✅ Complete |
+| `src/components/Skills.tsx` | Technical skills grid | ✅ Complete |
+| `src/components/Achievements.tsx` | Achievements section | ✅ Complete |
+| `src/components/Education.tsx` | Education section | ✅ Complete |
+| `src/components/Contact.tsx` | Contact form/links | ✅ Complete |
+| `src/components/Footer.tsx` | Footer with links | ✅ Complete |
+| `src/components/GitHubRepos.tsx` | GitHub repos server component | ✅ Complete |
+| `src/lib/github.ts` | GitHub API utility | ✅ Complete |
 
-## Current Focus
+## Design System
 
-The template is ready. Next steps depend on user requirements:
-
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
-
-## Quick Start Guide
-
-### To add a new page:
-
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
-
-### To add components:
-
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+- **Theme**: Dark (slate/navy) with indigo/cyan accents
+- **Typography**: Geist Sans & Mono
+- **Effects**: Glass morphism, gradient text, floating animations
+- **Colors**: Primary indigo (#6366f1), Accent cyan (#22d3ee)
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
+| 2026-03-25 | Full portfolio website built for Aman Toppo |
