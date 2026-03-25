@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { playClickSound, playHoverSound } from "@/lib/sounds";
+import { playClickSound, playHoverSound, setSoundEnabled, getSoundEnabled } from "@/lib/sounds";
 
 const links = [
   { href: "#about", label: "About" },
@@ -16,6 +16,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
+  const [soundOn, setSoundOn] = useState(() => {
+    if (typeof window === "undefined") return true;
+    const saved = localStorage.getItem("soundEnabled");
+    return saved !== "false";
+  });
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
@@ -36,27 +41,51 @@ export default function Navbar() {
     setOpen(!open);
   };
 
+  const toggleSound = () => {
+    playClickSound();
+    const newValue = !soundOn;
+    setSoundOn(newValue);
+    setSoundEnabled(newValue);
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "glass-nav" : "bg-transparent"
       }`}
     >
-      <div className="max-w-[1200px] mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="text-base font-semibold text-[var(--text-primary)] tracking-tight">
-          aman<span className="text-[var(--text-tertiary)]">.toppo</span>
-        </Link>
-
-        <div className="hidden md:flex items-center gap-7">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className="nav-link" onMouseEnter={() => handleNavHover(l.href)}>
-              {l.label}
-            </a>
-          ))}
-          <Link href="/open-source" className="nav-link" onMouseEnter={() => handleNavHover("library")}>
-            Library
+        <div className="max-w-[1200px] mx-auto px-6 h-14 flex items-center justify-between">
+          <Link href="/" className="text-base font-semibold text-[var(--text-primary)] tracking-tight">
+            aman<span className="text-[var(--text-tertiary)]">.toppo</span>
           </Link>
-        </div>
+
+          <div className="hidden md:flex items-center gap-5">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} className="nav-link" onMouseEnter={() => handleNavHover(l.href)}>
+                {l.label}
+              </a>
+            ))}
+            <Link href="/open-source" className="nav-link" onMouseEnter={() => handleNavHover("library")}>
+              Library
+            </Link>
+            <button
+              onClick={toggleSound}
+              onMouseEnter={() => handleNavHover("sound")}
+              className="nav-link p-1"
+              aria-label={soundOn ? "Disable sound" : "Enable sound"}
+            >
+              {soundOn ? (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                </svg>
+              )}
+            </button>
+          </div>
 
         <button
           onClick={handleToggle}
@@ -80,6 +109,9 @@ export default function Navbar() {
           <Link href="/open-source" onClick={() => setOpen(false)} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] py-1 text-sm">
             Library
           </Link>
+          <button onClick={toggleSound} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] py-1 text-sm flex items-center gap-2">
+            {soundOn ? "🔊 Sound On" : "🔇 Sound Off"}
+          </button>
         </div>
       )}
     </nav>
