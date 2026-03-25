@@ -2,46 +2,40 @@
 
 ## Why This Exists
 
-A professional personal portfolio website for Aman Toppo, a Mobile Engineer with 2.5 years of experience. The website presents experience, projects, skills, and achievements to recruiters and tech companies in a compelling way.
+A professional personal portfolio website for Aman Toppo (GitHub: avelon1A), a Mobile Engineer with 2.5 years of experience. Showcases open source work, production apps, and technical expertise to recruiters and tech companies.
 
 ## Target Audience
 
-1. **Recruiters** looking for Mobile Engineers
-2. **Tech companies** evaluating Android/Kotlin developers
-3. **Collaborators** interested in open source work
+1. **Recruiters** looking for Android/Kotlin developers
+2. **Tech companies** evaluating Mobile Engineers
+3. **Open source community** interested in Network Logger SDK
 4. **Fellow developers** for networking
 
 ## Key Features
 
-1. **Hero Section**: Professional introduction with key specializations
-2. **About**: Background with quantified achievements
-3. **Experience**: Timeline of roles at Bebetta and AMT
-4. **Projects**: Featured work with app store links
-5. **Skills**: Categorized technical expertise
-6. **GitHub Integration**: Live repos from GitHub API
-7. **Open Source Page**: Dedicated page for open source work
-8. **Contact**: Email, LinkedIn, GitHub links
+1. **Hero**: Animated gradient text, floating orbs, skill tags, social links
+2. **About**: Background with quantified stats (2.5yr, 3+ apps, 15% perf)
+3. **Projects**: Network Logger SDK (MavenCentral), prepStack, MyCompose, ComposeMultiplatform, MyPokedex
+4. **GitHub**: Live repos fetched from GitHub API (avelon1A)
+5. **Open Source Page**: Full documentation for Network Logger SDK
+6. **Skills**: 7 categorized groups
+7. **Experience**: Bebetta (SDE1), AMT
+8. **Contact**: Email (copy to clipboard), GitHub, LinkedIn
 
-## Design Principles
+## Design
 
-- **Dark theme** with indigo/cyan accent colors
-- **Glass morphism** card effects for modern feel
-- **Responsive** design for all devices
-- **Smooth animations** for engagement
-- **Professional** and clean presentation
-
-## User Flow
-
-1. Visitor lands on hero section
-2. Scrolls through about, experience, projects
-3. Views technical skills and achievements
-4. Explores GitHub repos (live data)
-5. Navigates to dedicated open source page
-6. Contacts via email/social links
+- Deep navy background (#050a14)
+- Animated gradient orbs (indigo, cyan, violet)
+- Grid background pattern
+- Glass morphism cards with backdrop blur
+- Gradient text with shimmer animation
+- Syntax-highlighted code blocks
 
 ## Key Links
 
-- Bebetta on Google Play: https://play.google.com/store/search?q=bebetta&c=apps&hl=en_IN
-- Bebetta on App Store: https://apps.apple.com/in/app/bebetta-join-sports-community/id6502454456
-- GitHub: https://github.com/amntoppo
-- LinkedIn: https://in.linkedin.com/in/aman-toppo-b54a43305
+- GitHub: https://github.com/avelon1A
+- LinkedIn: https://www.linkedin.com/in/aman-toppo-320917214/
+- Email: amanavelon@gmail.com
+- Network Logger: https://github.com/avelon1A/network-logger
+- Bebetta Play Store: https://play.google.com/store/search?q=bebetta&c=apps&hl=en_IN
+- Bebetta App Store: https://apps.apple.com/in/app/bebetta-join-sports-community/id6502454456

@@ -2,60 +2,56 @@
 
 ## Current State
 
-**Status**: ✅ Portfolio website built and deployed
+**Status**: ✅ Portfolio website built and deployed (v2 - complete redesign)
 
-A professional personal portfolio website for Aman Toppo, a Mobile Engineer with 2.5 years of experience in Android development and cross-platform mobile technologies.
+A professional personal portfolio website for Aman Toppo, a Mobile Engineer with 2.5 years of experience. Correct GitHub profile: `avelon1A`.
 
 ## Recently Completed
 
-- [x] Base Next.js 16 setup with App Router
-- [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration with custom theme
-- [x] ESLint configuration
-- [x] Hero section with professional introduction
-- [x] About section with stats (experience, apps, performance)
-- [x] Experience section with two roles (Bebetta, AMT)
-- [x] Projects section (Bebetta, Pacto) with app store links
-- [x] Skills section with 7 categorized groups
-- [x] Achievements section (Compose Facilitator)
-- [x] Education section (B.Tech IT, GEC Jagdalpur)
-- [x] Contact section with email/social links
-- [x] GitHub repos integration via GitHub API
-- [x] Dedicated Open Source Library page (/open-source)
-- [x] Responsive navigation with mobile hamburger menu
-- [x] Custom CSS animations and glass morphism effects
+- [x] Complete UI redesign with premium dark theme
+- [x] Fixed GitHub username to `avelon1A` (correct profile)
+- [x] Animated gradient orbs, grid background, glass morphism cards
+- [x] Hero section with animated tags and social links
+- [x] About section with stat cards
+- [x] Projects: Network Logger SDK (MavenCentral), prepStack, MyCompose, ComposeMultiplatform, MyPokedex
+- [x] Enhanced /open-source page for Network Logger SDK with:
+  - MavenCentral installation with syntax-highlighted code
+  - Quick Start guide (Ktor interceptor, WebSocket logging)
+  - Feature cards, project structure
+- [x] GitHub repos live integration (filters out config repos)
+- [x] Skills section with 7 categories
+- [x] Experience timeline (Bebetta SDE1, AMT)
+- [x] Achievements and Education sections
+- [x] Contact with email copy, GitHub, LinkedIn
+- [x] Responsive mobile navigation
 
-## Current Structure
+## GitHub Profile
 
-| File/Directory | Purpose | Status |
-|----------------|---------|--------|
-| `src/app/page.tsx` | Main portfolio page | ✅ Complete |
-| `src/app/layout.tsx` | Root layout with SEO metadata | ✅ Complete |
-| `src/app/globals.css` | Custom CSS with animations & theme | ✅ Complete |
-| `src/app/open-source/page.tsx` | Open source library page | ✅ Complete |
-| `src/components/Navbar.tsx` | Navigation with mobile support | ✅ Complete |
-| `src/components/Hero.tsx` | Hero/intro section | ✅ Complete |
-| `src/components/About.tsx` | About section with stats | ✅ Complete |
-| `src/components/Experience.tsx` | Work experience timeline | ✅ Complete |
-| `src/components/Projects.tsx` | Featured projects | ✅ Complete |
-| `src/components/Skills.tsx` | Technical skills grid | ✅ Complete |
-| `src/components/Achievements.tsx` | Achievements section | ✅ Complete |
-| `src/components/Education.tsx` | Education section | ✅ Complete |
-| `src/components/Contact.tsx` | Contact form/links | ✅ Complete |
-| `src/components/Footer.tsx` | Footer with links | ✅ Complete |
-| `src/components/GitHubRepos.tsx` | GitHub repos server component | ✅ Complete |
-| `src/lib/github.ts` | GitHub API utility | ✅ Complete |
+- **Username**: avelon1A
+- **LinkedIn**: https://www.linkedin.com/in/aman-toppo-320917214/
+- **Email**: amanavelon@gmail.com
+
+## Key Projects Featured
+
+| Project | Type | Tags |
+|---------|------|------|
+| network-logger | Open Source SDK (MavenCentral) | KMP, Ktor, Compose |
+| prepStack | Tech Interview Prep App | Clean Arch, Room, MVVM |
+| MyCompose | Compose Showcase App | Hilt, Retrofit, CI/CD |
+| ComposeMultiplatform | Coding Platform | KMP, Multi-platform |
+| MyPokedex | Pokedex App | Koin, Room |
 
 ## Design System
 
-- **Theme**: Dark (slate/navy) with indigo/cyan accents
-- **Typography**: Geist Sans & Mono
-- **Effects**: Glass morphism, gradient text, floating animations
-- **Colors**: Primary indigo (#6366f1), Accent cyan (#22d3ee)
+- **Background**: #050a14 (deep navy)
+- **Accents**: Indigo (#6366f1), Cyan (#06b6d4), Violet (#8b5cf6)
+- **Effects**: Animated orbs, grid background, gradient text shimmer
+- **Cards**: Glass morphism with backdrop blur, gradient top borders on featured
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
-| 2026-03-25 | Full portfolio website built for Aman Toppo |
+| 2026-03-25 | v1: Full portfolio built (wrong GitHub profile) |
+| 2026-03-25 | v2: Complete redesign, correct profile (avelon1A), Network Logger showcase |
