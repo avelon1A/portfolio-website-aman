@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { playClickSound, playHoverSound } from "@/lib/sounds";
 
 export default function Hero() {
   const glowRef = useRef<HTMLDivElement>(null);
+  const [hoveredBtn, setHoveredBtn] = useState<string | null>(null);
 
   useEffect(() => {
     const el = glowRef.current;
@@ -15,6 +17,15 @@ export default function Hero() {
     window.addEventListener("mousemove", handler);
     return () => window.removeEventListener("mousemove", handler);
   }, []);
+
+  const handleBtnClick = () => playClickSound();
+  const handleBtnHover = (btn: string) => {
+    if (hoveredBtn !== btn) {
+      playHoverSound();
+      setHoveredBtn(btn);
+      setTimeout(() => setHoveredBtn(null), 150);
+    }
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
@@ -64,13 +75,13 @@ export default function Hero() {
         </div>
 
         <div className="hero-cta flex flex-wrap justify-center gap-3">
-          <a href="#projects" className="btn-primary">
+          <a href="#projects" className="btn-primary" onClick={handleBtnClick} onMouseEnter={() => handleBtnHover("projects")}>
             View Projects
             <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </a>
-          <a href="#contact" className="btn-secondary">
+          <a href="#contact" className="btn-secondary" onClick={handleBtnClick} onMouseEnter={() => handleBtnHover("contact")}>
             Contact
           </a>
         </div>

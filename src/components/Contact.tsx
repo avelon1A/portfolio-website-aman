@@ -2,10 +2,27 @@
 
 import { useState } from "react";
 import Reveal from "@/components/Reveal";
+import { playClickSound, playHoverSound } from "@/lib/sounds";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
   const email = "amanavelon@gmail.com";
+
+  const handleCopy = () => {
+    playClickSound();
+    navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleHover = (id: string) => {
+    if (hovered !== id) {
+      playHoverSound();
+      setHovered(id);
+      setTimeout(() => setHovered(null), 150);
+    }
+  };
 
   return (
     <section id="contact" className="relative py-24 px-6">
@@ -23,18 +40,15 @@ export default function Contact() {
         <Reveal animation="scale" delay={100}>
           <div className="glass p-6 md:p-8">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
-              <a href={`mailto:${email}`} className="btn-primary">
+              <a href={`mailto:${email}`} className="btn-primary" onClick={playClickSound} onMouseEnter={() => handleHover("email")}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Send Email
               </a>
               <button
-                onClick={() => {
-                  navigator.clipboard.writeText(email);
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 2000);
-                }}
+                onClick={handleCopy}
+                onMouseEnter={() => handleHover("copy")}
                 className="btn-secondary"
               >
                 {copied ? (

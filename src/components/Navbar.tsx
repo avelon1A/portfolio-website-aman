@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { playClickSound, playHoverSound } from "@/lib/sounds";
 
 const links = [
   { href: "#about", label: "About" },
@@ -14,12 +15,26 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
+
+  const handleNavHover = (id: string) => {
+    if (hovered !== id) {
+      playHoverSound();
+      setHovered(id);
+      setTimeout(() => setHovered(null), 150);
+    }
+  };
+
+  const handleToggle = () => {
+    playClickSound();
+    setOpen(!open);
+  };
 
   return (
     <nav
@@ -34,17 +49,18 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-7">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="nav-link">
+            <a key={l.href} href={l.href} className="nav-link" onMouseEnter={() => handleNavHover(l.href)}>
               {l.label}
             </a>
           ))}
-          <Link href="/open-source" className="nav-link">
+          <Link href="/open-source" className="nav-link" onMouseEnter={() => handleNavHover("library")}>
             Library
           </Link>
         </div>
 
         <button
-          onClick={() => setOpen(!open)}
+          onClick={handleToggle}
+          onMouseEnter={() => handleNavHover("menu")}
           className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
           aria-label="Menu"
         >

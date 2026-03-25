@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Status**: ✅ Portfolio website built and deployed (v2 - complete redesign)
+**Status**: ✅ Portfolio website built and deployed (v3 - sound effects added)
 
 A professional personal portfolio website for Aman Toppo, a Mobile Engineer with 2.5 years of experience. Correct GitHub profile: `avelon1A`.
 
@@ -14,16 +14,19 @@ A professional personal portfolio website for Aman Toppo, a Mobile Engineer with
 - [x] Hero section with animated tags and social links
 - [x] About section with stat cards
 - [x] Projects: Network Logger SDK (MavenCentral), prepStack, MyCompose, ComposeMultiplatform, MyPokedex
-- [x] Enhanced /open-source page for Network Logger SDK with:
-  - MavenCentral installation with syntax-highlighted code
-  - Quick Start guide (Ktor interceptor, WebSocket logging)
-  - Feature cards, project structure
+- [x] Enhanced /open-source page for Network Logger SDK
 - [x] GitHub repos live integration (filters out config repos)
 - [x] Skills section with 7 categories
 - [x] Experience timeline (Bebetta SDE1, AMT)
 - [x] Achievements and Education sections
 - [x] Contact with email copy, GitHub, LinkedIn
 - [x] Responsive mobile navigation
+- [x] Scroll-triggered animations via Intersection Observer
+- [x] Icon hover effects (glow, spin, bounce)
+- [x] Mouse-tracking glass card effects
+- [x] Floating particles in hero
+- [x] Click sound effects on CTA buttons (Web Audio API)
+- [x] Hover sound effects on navigation and buttons
 
 ## GitHub Profile
 
@@ -43,10 +46,10 @@ A professional personal portfolio website for Aman Toppo, a Mobile Engineer with
 
 ## Design System
 
-- **Background**: #050a14 (deep navy)
-- **Accents**: Indigo (#6366f1), Cyan (#06b6d4), Violet (#8b5cf6)
-- **Effects**: Animated orbs, grid background, gradient text shimmer
-- **Cards**: Glass morphism with backdrop blur, gradient top borders on featured
+- **Background**: #050505 (obsidian)
+- **Accent**: #646cff (Vite Purple)
+- **Effects**: Floating particles, glow rings, gradient text shimmer
+- **Cards**: Glass morphism with mouse-tracking glow
 
 ## Session History
 
@@ -55,3 +58,4 @@ A professional personal portfolio website for Aman Toppo, a Mobile Engineer with
 | Initial | Template created with base setup |
 | 2026-03-25 | v1: Full portfolio built (wrong GitHub profile) |
 | 2026-03-25 | v2: Complete redesign, correct profile (avelon1A), Network Logger showcase |
+| 2026-03-25 | v3: Add sound effects (click + hover) on buttons and navigation |
