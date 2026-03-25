@@ -1,115 +1,171 @@
 const projects = [
   {
-    title: "Bebetta",
-    description:
-      "A cross-platform mobile application supporting Android and iOS designed with an offline-first architecture.",
+    title: "Network Logger SDK",
+    subtitle: "Open Source Library — MavenCentral",
+    desc: "A premium, Chucker-inspired network monitoring tool for Kotlin Multiplatform. Real-time HTTP & WebSocket traffic inspection with advanced metrics dashboard, glassmorphism UI, and Ktor interceptor support.",
     features: [
-      "Multi-module architecture designed for scalability",
-      "Real-time communication using WebSockets",
-      "Multilingual support and localization",
-      "Modern animated mobile interfaces",
-      "Integration of Ads, In-App Purchases, and analytics",
+      "Persistent notification launcher with live request counter",
+      "Dashboard with success rate, latency trends & traffic density charts",
+      "Deep inspection of request/response headers and bodies",
+      "Auto-identifies slowest endpoints in your application",
+      "Ktor plugin integration with URL filtering",
     ],
-    tags: ["Android", "iOS", "Kotlin", "WebSockets", "Firebase", "MoEngage"],
+    tags: ["Kotlin", "KMP", "Ktor", "Compose Multiplatform", "MavenCentral"],
+    tagColors: ["", "tag-cyan", "tag-violet", "", "tag-emerald"],
     links: [
-      {
-        label: "Google Play",
-        url: "https://play.google.com/store/search?q=bebetta&c=apps&hl=en_IN",
-        icon: "playstore",
-      },
-      {
-        label: "App Store",
-        url: "https://apps.apple.com/in/app/bebetta-join-sports-community/id6502454456",
-        icon: "apple",
-      },
+      { label: "GitHub", url: "https://github.com/avelon1A/network-logger" },
+      { label: "MavenCentral", url: "https://central.sonatype.com/search?q=io.github.avelon1a" },
     ],
+    featured: true,
+    install: `implementation("io.github.avelon1a:network-logger:1.0.0")`,
   },
   {
-    title: "Pacto – Project Manager App",
-    description:
-      "A mobile application designed to manage room rents and projects efficiently.",
+    title: "prepStack",
+    subtitle: "Tech Interview Prep App",
+    desc: "A comprehensive Android app for technical interview preparation covering 9 domains — Android, Backend, Java, Kotlin, C++, OOPS, DSA, SQL, and HR. Clean Architecture with multi-module structure.",
     features: [
-      "Structured architecture improving code maintainability by 60%",
-      "Increased development efficiency by 30%",
-      "Offline-first data storage",
-      "Seamless server synchronization",
-      "Remote data management through backend services",
+      "9 technical domains with extensive question banks",
+      "MCQ and Theory questions with detailed explanations",
+      "Quiz mode with random question generation",
+      "Bookmark system with Room database",
+      "Offline-first with AdMob monetization",
     ],
-    tags: ["Android", "Kotlin", "Room", "REST APIs", "MVVM"],
-    links: [],
+    tags: ["Kotlin", "Jetpack Compose", "Clean Architecture", "Room", "MVVM"],
+    tagColors: ["", "", "tag-cyan", "tag-emerald", "tag-violet"],
+    links: [
+      { label: "GitHub", url: "https://github.com/avelon1A/prepStack" },
+    ],
+    featured: true,
+  },
+  {
+    title: "MyCompose",
+    subtitle: "Jetpack Compose Showcase",
+    desc: "An Android app showcasing modern Jetpack Compose development with Dagger Hilt, Retrofit, comprehensive testing (unit + UI), GitHub Actions CI/CD, and Codecov integration.",
+    features: [
+      "Modern declarative UI with Jetpack Compose",
+      "Dagger Hilt dependency injection",
+      "Retrofit networking with proper state management",
+      "GitHub Actions CI/CD pipeline",
+      "Codecov integration for test coverage monitoring",
+    ],
+    tags: ["Kotlin", "Compose", "Hilt", "Retrofit", "GitHub Actions"],
+    tagColors: ["", "", "tag-violet", "tag-cyan", "tag-amber"],
+    links: [
+      { label: "GitHub", url: "https://github.com/avelon1A/MyCompose" },
+      { label: "Download APK", url: "https://avelon1a.github.io/MyCompose/app-debug.apk" },
+    ],
+    featured: false,
+  },
+  {
+    title: "ComposeMultiplatform",
+    subtitle: "Coding Platform Frontend",
+    desc: "A multi-platform coding platform built with Kotlin Multiplatform. Users can learn, practice, and improve their coding skills across web, iOS, Android, and desktop.",
+    features: [
+      "Multi-platform support (Web, iOS, Android, Desktop)",
+      "Interactive coding challenges in multiple languages",
+      "Real-time code editor environment",
+      "Community discussions and user profiles",
+      "Responsive mobile-friendly design",
+    ],
+    tags: ["Kotlin", "KMP", "Compose", "Multiplatform"],
+    tagColors: ["", "tag-cyan", "", "tag-violet"],
+    links: [
+      { label: "GitHub", url: "https://github.com/avelon1A/ComposeMultiplatform" },
+    ],
+    featured: false,
+  },
+  {
+    title: "MyPokedex",
+    subtitle: "Pokedex App",
+    desc: "A Pokedex app built with Jetpack Compose, Koin for dependency injection, and Room database for local data management with remote data synchronization.",
+    features: [
+      "Jetpack Compose UI",
+      "Koin dependency injection",
+      "Room database for offline storage",
+      "Remote data management",
+    ],
+    tags: ["Kotlin", "Compose", "Koin", "Room"],
+    tagColors: ["", "", "tag-violet", "tag-emerald"],
+    links: [
+      { label: "GitHub", url: "https://github.com/avelon1A/MyPokedex" },
+    ],
+    featured: false,
   },
 ];
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 px-6">
+    <section id="projects" className="relative py-28 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="section-tag">Projects</span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-4">
-            Featured <span className="gradient-text">Work</span>
+        <div className="mb-14">
+          <span className="section-label">Projects</span>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            Featured <span className="gtext">work</span>
           </h2>
-          <p className="text-slate-500 mt-4 max-w-2xl mx-auto">
-            Production applications built with modern Android technologies, 
-            clean architecture, and a focus on performance and user experience.
-          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project) => (
+        <div className="space-y-8">
+          {projects.map((p) => (
             <div
-              key={project.title}
-              className="glass rounded-2xl p-8 card-hover gradient-border"
+              key={p.title}
+              className={`card p-6 md:p-8 ${p.featured ? "card-featured" : ""}`}
             >
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                {project.links.length > 0 && (
-                  <div className="flex gap-2">
-                    {project.links.map((link) => (
-                      <a
-                        key={link.label}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-colors"
-                        title={link.label}
-                      >
-                        {link.icon === "playstore" ? (
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 010 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
+              <div className="flex flex-col lg:flex-row gap-6">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <div>
+                      <h3 className="text-xl font-bold text-white">{p.title}</h3>
+                      <p className="text-xs text-slate-500 mt-0.5">{p.subtitle}</p>
+                    </div>
+                    <div className="flex gap-2 flex-shrink-0">
+                      {p.links.map((l) => (
+                        <a
+                          key={l.label}
+                          href={l.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="tag text-[0.6875rem] hover:border-indigo-400"
+                        >
+                          {l.label}
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
-                        ) : (
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                          </svg>
-                        )}
-                      </a>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-slate-400 mb-4 leading-relaxed">{p.desc}</p>
+
+                  <div className="space-y-1.5 mb-4">
+                    {p.features.map((f, i) => (
+                      <div key={i} className="feat-item">
+                        <span className="feat-dot" />
+                        <span className="text-sm text-slate-500">{f}</span>
+                      </div>
                     ))}
                   </div>
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {p.tags.map((t, i) => (
+                      <span key={t} className={`tag text-[0.6875rem] ${p.tagColors[i] || ""}`}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {p.install && (
+                  <div className="lg:w-80 flex-shrink-0">
+                    <p className="text-[0.6875rem] text-slate-600 mb-1.5 uppercase tracking-wider font-medium">Install</p>
+                    <div className="code-block text-xs">
+                      <span className="fn">implementation</span>(<span className="str">&quot;{p.install}&quot;</span>)
+                    </div>
+                    <p className="text-[0.6875rem] text-slate-600 mt-3">
+                      Published on MavenCentral
+                    </p>
+                  </div>
                 )}
-              </div>
-
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                {project.description}
-              </p>
-
-              <ul className="space-y-2 mb-6">
-                {project.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-500">
-                    <svg className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="skill-tag text-xs">
-                    {tag}
-                  </span>
-                ))}
               </div>
             </div>
           ))}

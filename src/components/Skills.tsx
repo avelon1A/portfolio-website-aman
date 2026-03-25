@@ -1,67 +1,52 @@
-const skillCategories = [
+const cats = [
   {
     title: "Programming",
-    icon: "💻",
-    skills: ["Kotlin", "Java", "Swift", "Python"],
+    items: ["Kotlin", "Java", "Swift", "Python"],
   },
   {
     title: "Frameworks & Architecture",
-    icon: "🏗️",
-    skills: ["Jetpack Compose", "Ktor", "Spring Boot", "MVVM", "MVI"],
+    items: ["Jetpack Compose", "Ktor", "Spring Boot", "MVVM", "MVI", "Clean Architecture"],
   },
   {
     title: "Testing & Quality",
-    icon: "🧪",
-    skills: ["Unit Testing", "Code Coverage", "Performance Profiling"],
+    items: ["Unit Testing", "UI Testing", "Code Coverage", "Performance Profiling"],
   },
   {
     title: "CI/CD",
-    icon: "⚙️",
-    skills: ["GitHub Actions", "Bitrise", "Jenkins"],
+    items: ["GitHub Actions", "Bitrise", "Jenkins"],
   },
   {
     title: "Databases & APIs",
-    icon: "🗄️",
-    skills: ["Room Database", "REST APIs", "WebSockets", "SQL"],
+    items: ["Room", "SQLite", "REST APIs", "WebSockets"],
   },
   {
     title: "Tools",
-    icon: "🛠️",
-    skills: ["Android Studio", "Firebase", "Postman", "Git", "Google Maps SDK"],
+    items: ["Android Studio", "Firebase", "Postman", "Git", "Docker", "Google Maps SDK"],
   },
   {
     title: "Other",
-    icon: "🎯",
-    skills: ["Agile", "Problem Solving", "Kotlin Multiplatform"],
+    items: ["KMP", "Agile", "Problem Solving"],
   },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="section-tag">Skills</span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-4">
-            Technical <span className="gradient-text">Expertise</span>
+    <section id="skills" className="relative py-28 px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-14">
+          <span className="section-label">Skills</span>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            Technical <span className="gtext">expertise</span>
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skillCategories.map((category) => (
-            <div
-              key={category.title}
-              className="glass rounded-2xl p-6 card-hover"
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <span className="text-2xl">{category.icon}</span>
-                <h3 className="text-lg font-semibold text-white">{category.title}</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <span key={skill} className="skill-tag">
-                    {skill}
-                  </span>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {cats.map((c) => (
+            <div key={c.title} className="card p-5">
+              <h3 className="text-sm font-semibold text-white mb-3">{c.title}</h3>
+              <div className="flex flex-wrap gap-1.5">
+                {c.items.map((s) => (
+                  <span key={s} className="pill">{s}</span>
                 ))}
               </div>
             </div>

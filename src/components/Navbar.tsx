@@ -1,89 +1,69 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
-const navLinks = [
+const links = [
   { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
   { href: "#skills", label: "Skills" },
+  { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const h = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass shadow-lg" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? "glass-strong shadow-2xl shadow-indigo-500/5" : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="text-xl font-bold gradient-text">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link href="/" className="text-lg font-bold gtext tracking-tight">
           AT
-        </a>
+        </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="nav-link text-sm text-slate-300 hover:text-white">
-              {link.label}
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="nav-link">
+              {l.label}
             </a>
           ))}
-          <a href="/open-source" className="nav-link text-sm text-slate-300 hover:text-white">
+          <Link href="/open-source" className="nav-link">
             Open Source
-          </a>
+          </Link>
         </div>
 
         <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          aria-label="Toggle menu"
+          onClick={() => setOpen(!open)}
+          className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
+          aria-label="Menu"
         >
-          <span
-            className={`block w-6 h-0.5 bg-slate-300 transition-all ${
-              mobileOpen ? "rotate-45 translate-y-2" : ""
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 bg-slate-300 transition-all ${
-              mobileOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 bg-slate-300 transition-all ${
-              mobileOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
-          />
+          <span className={`block w-5 h-[1.5px] bg-slate-400 transition-all duration-300 ${open ? "rotate-45 translate-y-[4px]" : ""}`} />
+          <span className={`block w-5 h-[1.5px] bg-slate-400 transition-all duration-300 ${open ? "opacity-0" : ""}`} />
+          <span className={`block w-5 h-[1.5px] bg-slate-400 transition-all duration-300 ${open ? "-rotate-45 -translate-y-[4px]" : ""}`} />
         </button>
       </div>
 
-      {mobileOpen && (
-        <div className="md:hidden glass border-t border-slate-700/50 px-6 py-4 flex flex-col gap-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className="text-slate-300 hover:text-white py-2"
-            >
-              {link.label}
+      {open && (
+        <div className="md:hidden glass-strong border-t border-indigo-500/10 px-6 py-5 flex flex-col gap-4">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-slate-400 hover:text-white py-1 text-sm">
+              {l.label}
             </a>
           ))}
-          <a
-            href="/open-source"
-            onClick={() => setMobileOpen(false)}
-            className="text-slate-300 hover:text-white py-2"
-          >
+          <Link href="/open-source" onClick={() => setOpen(false)} className="text-slate-400 hover:text-white py-1 text-sm">
             Open Source
-          </a>
+          </Link>
         </div>
       )}
     </nav>
