@@ -1,3 +1,5 @@
+"use client";
+
 import Reveal from "@/components/Reveal";
 import { playHoverSound } from "@/lib/sounds";
 import { useState } from "react";
