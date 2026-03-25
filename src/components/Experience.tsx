@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 const roles = [
   {
     role: "Android Developer (SDE1)",
@@ -29,42 +31,44 @@ export default function Experience() {
   return (
     <section id="experience" className="relative py-24 px-6">
       <div className="max-w-[800px] mx-auto">
-        <div className="mb-10">
+        <Reveal className="mb-10">
           <span className="section-label">Experience</span>
           <h2 className="text-3xl md:text-4xl font-bold tracking-[-0.03em]">
             Professional <span className="accent-text">journey</span>
           </h2>
-        </div>
+        </Reveal>
 
         <div className="relative">
           <div className="absolute left-[15px] top-3 bottom-3 tl-line hidden md:block" />
 
           <div className="space-y-8">
             {roles.map((r, i) => (
-              <div key={i} className="relative md:pl-10">
-                <div className="tl-dot absolute left-[12px] top-[14px] hidden md:block" />
+              <Reveal key={i} animation="slide-left" delay={i * 120}>
+                <div className="relative md:pl-10">
+                  <div className="tl-dot absolute left-[12px] top-[14px] hidden md:block" />
 
-                <div className="glass p-5 md:p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                    <div>
-                      <h3 className="text-sm font-semibold text-[var(--text-primary)]">{r.role}</h3>
-                      <p className="text-xs text-[var(--accent)] font-medium">{r.company}</p>
-                    </div>
-                    <div className="text-[0.6875rem] text-[var(--text-tertiary)] mt-1 sm:mt-0 sm:text-right">
-                      {r.period} · {r.location}
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    {r.items.map((item, j) => (
-                      <div key={j} className="flex items-start gap-2">
-                        <span className="feat-dot" />
-                        <span className="text-xs text-[var(--text-secondary)] leading-relaxed">{item}</span>
+                  <div className="glass p-5 md:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                      <div>
+                        <h3 className="text-sm font-semibold text-[var(--text-primary)]">{r.role}</h3>
+                        <p className="text-xs text-[var(--accent)] font-medium">{r.company}</p>
                       </div>
-                    ))}
+                      <div className="text-[0.6875rem] text-[var(--text-tertiary)] mt-1 sm:mt-0 sm:text-right">
+                        {r.period} · {r.location}
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      {r.items.map((item, j) => (
+                        <div key={j} className="flex items-start gap-2 feat-item">
+                          <span className="feat-dot" />
+                          <span className="text-xs text-[var(--text-secondary)] leading-relaxed">{item}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
