@@ -1,11 +1,9 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function OpenSourcePage() {
   return (
     <>
-      <Navbar />
       <main className="min-h-screen pt-16">
         <section className="py-16 px-6">
           <div className="max-w-[900px] mx-auto">
