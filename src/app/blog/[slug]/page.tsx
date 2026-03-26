@@ -6,6 +6,7 @@ import Link from "next/link";
 import { blogPosts } from "@/lib/blog/posts";
 import Reveal from "@/components/Reveal";
 import MvvmDiagram from "@/components/MvvmDiagram";
+import CodeBlock from "@/components/CodeBlock";
 
 export default function BlogPostPage() {
   const router = useRouter();
@@ -172,23 +173,7 @@ export default function BlogPostPage() {
                     {section.content}
                   </div>
                   {section.code && (
-                    <div className="relative group">
-                      <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(section.code!);
-                          }}
-                          className="text-[0.6875rem] text-[var(--text-tertiary)] hover:text-[var(--accent)] px-2 py-1 rounded bg-[var(--bg-raised)]"
-                        >
-                          Copy
-                        </button>
-                      </div>
-                      <pre className="overflow-x-auto text-sm leading-relaxed p-4 rounded-lg bg-[var(--bg-raised)] border border-[var(--border)]">
-                        <code className="text-[var(--text-secondary)]">
-                          {section.code}
-                        </code>
-                      </pre>
-                    </div>
+                    <CodeBlock code={section.code} language={section.language || "kotlin"} />
                   )}
                   {section.diagram && !section.diagramComponent && (
                     <div className="relative">
