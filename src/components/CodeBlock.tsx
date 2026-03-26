@@ -7,6 +7,122 @@ interface CodeBlockProps {
   language?: string;
 }
 
+interface Token {
+  type: "keyword" | "type" | "string" | "comment" | "annotation" | "number" | "function" | "operator" | "punctuation" | "plain";
+  text: string;
+}
+
+const KEYWORDS = new Set([
+  "fun", "val", "var", "class", "object", "interface", "sealed", "data", "abstract",
+  "override", "private", "public", "protected", "internal", "suspend", "companion",
+  "init", "constructor", "get", "set", "when", "if", "else", "try", "catch",
+  "finally", "throw", "return", "is", "in", "as", "by", "lazy", "const", "lateinit",
+  "inner", "enum", "annotation", "import", "package", "typealias", "break", "continue",
+  "do", "while", "for", "super", "this", "true", "false", "null"
+]);
+
+function tokenizeLine(line: string): Token[] {
+  const tokens: Token[] = [];
+  let i = 0;
+
+  while (i < line.length) {
+    // Comments
+    if (line.substring(i).startsWith("//")) {
+      tokens.push({ type: "comment", text: line.substring(i) });
+      break;
+    }
+
+    // String literals
+    if (line[i] === '"' || line[i] === "'" || line[i] === "`") {
+      const quote = line[i];
+      let end = i + 1;
+      while (end < line.length && line[end] !== quote) {
+        if (line[end] === "\\") end++;
+        end++;
+      }
+      if (end < line.length) end++;
+      tokens.push({ type: "string", text: line.substring(i, end) });
+      i = end;
+      continue;
+    }
+
+    // Annotations
+    if (line[i] === "@") {
+      let end = i + 1;
+      while (end < line.length && /[a-zA-Z0-9_]/.test(line[end])) end++;
+      tokens.push({ type: "annotation", text: line.substring(i, end) });
+      i = end;
+      continue;
+    }
+
+    // Numbers
+    if (/[0-9]/.test(line[i])) {
+      let end = i;
+      while (end < line.length && /[0-9.]/.test(line[end])) end++;
+      if (end < line.length && /[fFdDlL]/.test(line[end])) end++;
+      tokens.push({ type: "number", text: line.substring(i, end) });
+      i = end;
+      continue;
+    }
+
+    // Words
+    if (/[a-zA-Z_]/.test(line[i])) {
+      let end = i;
+      while (end < line.length && /[a-zA-Z0-9_]/.test(line[end])) end++;
+      const word = line.substring(i, end);
+
+      if (KEYWORDS.has(word)) {
+        tokens.push({ type: "keyword", text: word });
+      } else if (/^[A-Z]/.test(word)) {
+        tokens.push({ type: "type", text: word });
+      } else {
+        let nextNonSpace = end;
+        while (nextNonSpace < line.length && line[nextNonSpace] === " ") nextNonSpace++;
+        if (nextNonSpace < line.length && line[nextNonSpace] === "(") {
+          tokens.push({ type: "function", text: word });
+        } else {
+          tokens.push({ type: "plain", text: word });
+        }
+      }
+      i = end;
+      continue;
+    }
+
+    // Operators
+    if (/[=+\-*/%<>!&|^~?:]/.test(line[i])) {
+      tokens.push({ type: "operator", text: line[i] });
+      i++;
+      continue;
+    }
+
+    // Punctuation
+    if (/[{}[\]();,]/.test(line[i])) {
+      tokens.push({ type: "punctuation", text: line[i] });
+      i++;
+      continue;
+    }
+
+    // Whitespace and other
+    tokens.push({ type: "plain", text: line[i] });
+    i++;
+  }
+
+  return tokens;
+}
+
+const TOKEN_COLORS: Record<Token["type"], string> = {
+  keyword: "text-purple-400",
+  type: "text-sky-400",
+  string: "text-emerald-400",
+  comment: "text-gray-500 italic",
+  annotation: "text-amber-400",
+  number: "text-orange-400",
+  function: "text-blue-400",
+  operator: "text-gray-400",
+  punctuation: "text-gray-300",
+  plain: "text-gray-300",
+};
+
 export default function CodeBlock({ code, language = "kotlin" }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
@@ -16,112 +132,7 @@ export default function CodeBlock({ code, language = "kotlin" }: CodeBlockProps)
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const highlightKotlin = (code: string) => {
-    const lines = code.split("\n");
-    return lines.map((line, lineIndex) => {
-      let highlighted = line;
-      
-      // Comments (// style)
-      if (line.trim().startsWith("//")) {
-        return (
-          <span key={lineIndex} className="block">
-            <span className="text-[#6b7280] italic">{line}</span>
-          </span>
-        );
-      }
-
-      // Process tokens in order of priority
-      const tokens: { text: string; className: string }[] = [];
-      let remaining = line;
-      
-      // Keywords
-      const keywords = [
-        "fun", "val", "var", "class", "object", "interface", "sealed", "data", "abstract",
-        "override", "private", "public", "protected", "internal", "suspend", "companion",
-        "init", "constructor", "get", "set", "when", "if", "else", "when", "try", "catch",
-        "finally", "throw", "return", "is", "in", "as", "by", "lazy", "const", "lateinit",
-        "inner", "enum", "annotation", "import", "package", "typealias", "break", "continue",
-        "do", "while", "for", "super", "this", "true", "false", "null"
-      ];
-
-      // Annotations
-      const annotations = [
-        "@Composable", "@Preview", "@Test", "@Before", "@After", "@Stable", "@Immutable",
-        "@Inject", "@Module", "@Provides", "@Singleton", "@AndroidEntryPoint",
-        "@HiltAndroidApp", "@ViewModelInject", "@AssistedInject"
-      ];
-
-      // Types
-      const types = [
-        "String", "Int", "Long", "Double", "Float", "Boolean", "Char", "Byte", "Short",
-        "Unit", "Any", "Nothing", "List", "MutableList", "Map", "MutableMap", "Set",
-        "MutableSet", "Array", "Pair", "Triple", "Result", "StateFlow", "MutableStateFlow",
-        "Flow", "LiveData", "MutableLiveData", "CoroutineScope", "ViewModel", "Activity",
-        "Fragment", "Context", "View", "Composable", "Modifier", "Column", "Row", "Box",
-        "Text", "Button", "Spacer", "LazyColumn", "LazyRow", "Scaffold", "TopAppBar",
-        "MaterialTheme", "Alignment", "Arrangement", "Shape", "Color", "Typography"
-      ];
-
-      // Replace patterns
-      // String literals
-      highlighted = highlighted.replace(
-        /(["'`])(?:(?!\1)[^\\]|\\.)*?\1/g,
-        '<span class="text-emerald-400">$&</span>'
-      );
-
-      // Annotations
-      annotations.forEach(ann => {
-        highlighted = highlighted.replace(
-          new RegExp(`\\${ann.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g'),
-          `<span class="text-amber-400">${ann}</span>`
-        );
-      });
-
-      // Keywords
-      keywords.forEach(kw => {
-        highlighted = highlighted.replace(
-          new RegExp(`\\b${kw}\\b`, 'g'),
-          `<span class="text-purple-400">${kw}</span>`
-        );
-      });
-
-      // Types (capitalized words)
-      highlighted = highlighted.replace(
-        /\b([A-Z][a-zA-Z0-9_]*)\b/g,
-        '<span class="text-sky-400">$1</span>'
-      );
-
-      // Function calls
-      highlighted = highlighted.replace(
-        /\b([a-z][a-zA-Z0-9_]*)\s*\(/g,
-        '<span class="text-blue-400">$1</span>('
-      );
-
-      // Numbers
-      highlighted = highlighted.replace(
-        /\b(\d+\.?\d*[fFdDlL]?)\b/g,
-        '<span class="text-orange-400">$1</span>'
-      );
-
-      // Operators
-      highlighted = highlighted.replace(
-        /([=+\-*/%<>!&|^~?:])/g,
-        '<span class="text-gray-400">$1</span>'
-      );
-
-      // Braces and brackets
-      highlighted = highlighted.replace(
-        /([{}[\]()])/g,
-        '<span class="text-gray-300">$1</span>'
-      );
-
-      return (
-        <span key={lineIndex} className="block">
-          <span dangerouslySetInnerHTML={{ __html: highlighted }} />
-        </span>
-      );
-    });
-  };
+  const lines = code.split("\n");
 
   return (
     <div className="relative group my-6 rounded-lg border border-[var(--border)] overflow-hidden bg-[#1e1e1e]">
@@ -162,14 +173,22 @@ export default function CodeBlock({ code, language = "kotlin" }: CodeBlockProps)
       {/* Code content */}
       <div className="overflow-x-auto">
         <pre className="p-4 text-[0.8125rem] leading-relaxed font-mono">
-          <code className="text-gray-300">
-            {highlightKotlin(code)}
+          <code>
+            {lines.map((line, lineIndex) => {
+              const lineTokens = tokenizeLine(line);
+              return (
+                <span key={lineIndex} className="block">
+                  {lineTokens.map((token, tokenIndex) => (
+                    <span key={tokenIndex} className={TOKEN_COLORS[token.type]}>
+                      {token.text}
+                    </span>
+                  ))}
+                </span>
+              );
+            })}
           </code>
         </pre>
       </div>
-
-      {/* Line numbers gutter (decorative) */}
-      <div className="absolute left-0 top-[42px] bottom-0 w-10 bg-[#1e1e1e] border-r border-[var(--border)] pointer-events-none opacity-50" />
     </div>
   );
 }
