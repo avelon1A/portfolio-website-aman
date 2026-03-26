@@ -1,14 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy to Cloudflare Pages
 
 on:
   push:
     branches:
       - main
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
 
 jobs:
   build-and-deploy:
@@ -31,11 +26,14 @@ jobs:
       - name: Run lint
         run: bun run lint
 
-      - name: Build application
+      - name: Build Next.js
         run: bun run build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: portfolio-website
+          directory: .next/standalone
+          wranglerConfig: ./wrangler.toml
