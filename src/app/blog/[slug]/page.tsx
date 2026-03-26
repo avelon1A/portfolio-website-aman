@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { blogPosts } from "@/lib/blog/posts";
 import Reveal from "@/components/Reveal";
+import MvvmDiagram from "@/components/MvvmDiagram";
 
 export default function BlogPostPage() {
   const router = useRouter();
@@ -189,7 +190,7 @@ export default function BlogPostPage() {
                       </pre>
                     </div>
                   )}
-                  {section.diagram && (
+                  {section.diagram && !section.diagramComponent && (
                     <div className="relative">
                       <div className="mb-2 flex items-center gap-2">
                         <svg className="w-4 h-4 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,6 +204,9 @@ export default function BlogPostPage() {
                         </code>
                       </pre>
                     </div>
+                  )}
+                  {section.diagramComponent === "mvvm" && (
+                    <MvvmDiagram />
                   )}
                 </section>
               </Reveal>

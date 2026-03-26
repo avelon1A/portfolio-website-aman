@@ -16,6 +16,7 @@ export interface BlogSection {
   code?: string;
   language?: string;
   diagram?: string;
+  diagramComponent?: "mvvm" | "mvi";
 }
 
 export const blogPosts: BlogPost[] = [
@@ -190,44 +191,8 @@ export const blogPosts: BlogPost[] = [
       {
         id: "flow-diagram",
         title: "MVVM Data Flow",
-        content: `Understanding how data flows in MVVM is crucial. Here's the complete flow:\n\n1. USER INTERACTION: User interacts with the View (UI)\n2. VIEW triggers VIEWMODEL: View calls a method on the ViewModel\n3. VIEWMODEL processes: ViewModel executes business logic, calls Repository\n4. REPOSITORY fetches data: Repository calls data sources (API, Database)\n5. DATA returns: Data flows back through Repository to ViewModel\n6. STATE updates: ViewModel updates its observable State (StateFlow/LiveData)\n7. UI RECOMPOSES: View observes state changes and updates UI automatically\n\nThe key principle: View observes ViewModel state, but ViewModel never knows about the View. This unidirectional data flow makes the system predictable and testable.`,
-        diagram: `┌─────────────────────────────────────────────────────────┐
-│                    MVVM ARCHITECTURE                      │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │                    VIEW (UI)                       │   │
-│  │  - Composable functions / Activity / Fragment     │   │
-│  │  - Observes ViewModel state                       │   │
-│  │  - Sends user actions to ViewModel                │   │
-│  └──────────────┬─────────────────────▲──────────────┘   │
-│                 │                     │                   │
-│        User Action             State Update              │
-│                 │                     │                   │
-│  ┌──────────────▼─────────────────────┴──────────────┐   │
-│  │                  VIEWMODEL                         │   │
-│  │  - Holds UI state (StateFlow)                     │   │
-│  │  - Processes user actions                         │   │
-│  │  - Calls Repository methods                       │   │
-│  │  - NO reference to View or Android Context        │   │
-│  └──────────────┬─────────────────────▲──────────────┘   │
-│                 │                     │                   │
-│        Repository Call         Result/Data               │
-│                 │                     │                   │
-│  ┌──────────────▼─────────────────────┴──────────────┐   │
-│  │                  REPOSITORY                        │   │
-│  │  - Single source of truth                         │   │
-│  │  - Coordinates data sources                       │   │
-│  │  - Handles caching strategy                       │   │
-│  └──────────────┬─────────────────────▲──────────────┘   │
-│                 │                     │                   │
-│  ┌──────────────▼─────────────┐ ┌─────┴──────────────┐   │
-│  │     REMOTE DATA SOURCE     │ │ LOCAL DATA SOURCE  │   │
-│  │  - API calls (Retrofit)    │ │  - Room Database   │   │
-│  │  - Network requests        │ │  - SharedPrefs     │   │
-│  └────────────────────────────┘ └────────────────────┘   │
-│                                                          │
-└─────────────────────────────────────────────────────────┘`
+        content: `Understanding how data flows in MVVM is crucial. Here's the complete flow:\n\n1. USER INTERACTION: User interacts with the View (UI)\n2. VIEW triggers VIEWMODEL: View calls a method on the ViewModel\n3. VIEWMODEL processes: ViewModel executes business logic, calls Repository\n4. REPOSITORY fetches data: Repository calls data sources (API, Database)\n5. DATA returns: Data flows back through Repository to ViewModel\n6. STATE updates: ViewModel updates its observable State (StateFlow/LiveData)\n7. UI RECOMPOSES: View observes state changes and updates UI automatically\n\nThe key principle: View observes ViewModel state, but ViewModel never knows about the View. This unidirectional data flow makes the system predictable and testable.\n\nClick each layer in the diagram below to explore its responsibilities.`,
+        diagramComponent: "mvvm"
       },
       {
         id: "view-layer",
