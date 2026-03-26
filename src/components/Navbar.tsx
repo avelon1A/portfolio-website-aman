@@ -68,6 +68,9 @@ export default function Navbar() {
                 {l.label}
               </a>
             ))}
+            <Link href="/blog" className="nav-link" onMouseEnter={() => handleNavHover("blog")}>
+              Blog
+            </Link>
             <Link href="/open-source" className="nav-link" onMouseEnter={() => handleNavHover("library")}>
               Library
             </Link>
@@ -125,6 +128,9 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+          <Link href="/blog" onClick={() => setOpen(false)} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] py-1 text-sm">
+            Blog
+          </Link>
           <Link href="/open-source" onClick={() => setOpen(false)} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] py-1 text-sm">
             Library
           </Link>
