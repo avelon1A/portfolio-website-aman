@@ -15,6 +15,7 @@ export interface BlogSection {
   content: string;
   code?: string;
   language?: string;
+  diagram?: string;
 }
 
 export const blogPosts: BlogPost[] = [
@@ -169,6 +170,97 @@ export const blogPosts: BlogPost[] = [
         id: "conclusion",
         title: "Conclusion",
         content: `Kotlin Multiplatform provides a powerful way to share business logic across platforms while maintaining platform-specific capabilities. By following these patterns:\n\n1. Structure your project for clear separation of concerns\n2. Use the Repository pattern for data access\n3. Implement dependency injection for testability\n4. Write tests for shared code to ensure reliability\n\nYou can build maintainable, cross-platform applications that leverage the strengths of both Android and iOS.`
+      }
+    ]
+  },
+  {
+    slug: "mvvm-architecture",
+    title: "MVVM Architecture: Complete Guide",
+    excerpt: "Master the Model-View-ViewModel pattern in Android. Learn how MVVM separates concerns, manages data flow, and enables testable, maintainable code.",
+    date: "2024-03-20",
+    readTime: "15 min read",
+    category: "Architecture",
+    tags: ["MVVM", "Architecture", "Android", "ViewModel", "LiveData"],
+    sections: [
+      {
+        id: "introduction",
+        title: "Introduction",
+        content: "MVVM (Model-View-ViewModel) is the recommended architecture pattern for Android development. It separates the UI logic from business logic, making code more testable, maintainable, and scalable.\n\nThis guide covers MVVM in depth, including the data flow, layer responsibilities, and practical implementation patterns."
+      },
+      {
+        id: "flow-diagram",
+        title: "MVVM Data Flow",
+        content: `Understanding how data flows in MVVM is crucial. Here's the complete flow:\n\n1. USER INTERACTION: User interacts with the View (UI)\n2. VIEW triggers VIEWMODEL: View calls a method on the ViewModel\n3. VIEWMODEL processes: ViewModel executes business logic, calls Repository\n4. REPOSITORY fetches data: Repository calls data sources (API, Database)\n5. DATA returns: Data flows back through Repository to ViewModel\n6. STATE updates: ViewModel updates its observable State (StateFlow/LiveData)\n7. UI RECOMPOSES: View observes state changes and updates UI automatically\n\nThe key principle: View observes ViewModel state, but ViewModel never knows about the View. This unidirectional data flow makes the system predictable and testable.`,
+        diagram: `┌─────────────────────────────────────────────────────────┐
+│                    MVVM ARCHITECTURE                      │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │                    VIEW (UI)                       │   │
+│  │  - Composable functions / Activity / Fragment     │   │
+│  │  - Observes ViewModel state                       │   │
+│  │  - Sends user actions to ViewModel                │   │
+│  └──────────────┬─────────────────────▲──────────────┘   │
+│                 │                     │                   │
+│        User Action             State Update              │
+│                 │                     │                   │
+│  ┌──────────────▼─────────────────────┴──────────────┐   │
+│  │                  VIEWMODEL                         │   │
+│  │  - Holds UI state (StateFlow)                     │   │
+│  │  - Processes user actions                         │   │
+│  │  - Calls Repository methods                       │   │
+│  │  - NO reference to View or Android Context        │   │
+│  └──────────────┬─────────────────────▲──────────────┘   │
+│                 │                     │                   │
+│        Repository Call         Result/Data               │
+│                 │                     │                   │
+│  ┌──────────────▼─────────────────────┴──────────────┐   │
+│  │                  REPOSITORY                        │   │
+│  │  - Single source of truth                         │   │
+│  │  - Coordinates data sources                       │   │
+│  │  - Handles caching strategy                       │   │
+│  └──────────────┬─────────────────────▲──────────────┘   │
+│                 │                     │                   │
+│  ┌──────────────▼─────────────┐ ┌─────┴──────────────┐   │
+│  │     REMOTE DATA SOURCE     │ │ LOCAL DATA SOURCE  │   │
+│  │  - API calls (Retrofit)    │ │  - Room Database   │   │
+│  │  - Network requests        │ │  - SharedPrefs     │   │
+│  └────────────────────────────┘ └────────────────────┘   │
+│                                                          │
+└─────────────────────────────────────────────────────────┘`
+      },
+      {
+        id: "view-layer",
+        title: "View Layer Implementation",
+        content: "The View layer is responsible for displaying data and capturing user interactions. In modern Android development with Jetpack Compose, the View is represented by Composable functions.\n\nThe View should:\n- Observe ViewModel state using collectAsState()\n- Call ViewModel methods for user actions\n- Never contain business logic\n- Be as dumb as possible - just display state and forward events",
+        code: `// View Layer - Composable Screen\n@Composable\nfun UserScreen(viewModel: UserViewModel) {\n    val uiState by viewModel.uiState.collectAsState()\n    \n    when (uiState) {\n        is UserUiState.Loading -> {\n            Box(\n                modifier = Modifier.fillMaxSize(),\n                contentAlignment = Alignment.Center\n            ) {\n                CircularProgressIndicator()\n            }\n        }\n        \n        is UserUiState.Success -> {\n            val users = (uiState as UserUiState.Success).users\n            UserList(\n                users = users,\n                onUserClick = { user -> viewModel.onUserClick(user) },\n                onRefresh = { viewModel.refreshUsers() }\n            )\n        }\n        \n        is UserUiState.Error -> {\n            val message = (uiState as UserUiState.Error).message\n            ErrorView(\n                message = message,\n                onRetry = { viewModel.refreshUsers() }\n            )\n        }\n    }\n}\n\n// Reusable Composable Components\n@Composable\nfun UserList(\n    users: List<User>,\n    onUserClick: (User) -> Unit,\n    onRefresh: () -> Unit\n) {\n    LazyColumn {\n        items(users) { user ->\n            UserItem(\n                user = user,\n                onClick = { onUserClick(user) }\n            )\n        }\n    }\n}\n\n@Composable\nfun ErrorView(message: String, onRetry: () -> Unit) {\n    Column(\n        horizontalAlignment = Alignment.CenterHorizontally\n    ) {\n        Text(text = message, color = MaterialTheme.colors.error)\n        Spacer(modifier = Modifier.height(16.dp))\n        Button(onClick = onRetry) {\n            Text("Retry")\n        }\n    }\n}`,
+        language: "kotlin"
+      },
+      {
+        id: "viewmodel-layer",
+        title: "ViewModel Layer Implementation",
+        content: "The ViewModel is the bridge between the View and the Model layer. It holds and manages UI state, processes user actions, and coordinates with the Repository.\n\nKey responsibilities:\n- Hold UI state as StateFlow or LiveData\n- Process user actions (methods called by View)\n- Call Repository to fetch/update data\n- Handle async operations with coroutines\n- Survive configuration changes\n- Never reference View or Android Context directly",
+        code: `// ViewModel Implementation\nclass UserViewModel(\n    private val userRepository: UserRepository\n) : ViewModel() {\n    \n    // UI State - immutable to View\n    private val _uiState = MutableStateFlow<UserUiState>(UserUiState.Loading)\n    val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()\n    \n    // Selected user for detail view\n    private val _selectedUser = MutableStateFlow<User?>(null)\n    val selectedUser: StateFlow<User?> = _selectedUser.asStateFlow()\n    \n    init {\n        loadUsers()\n    }\n    \n    // User Actions (called by View)\n    fun loadUsers() {\n        viewModelScope.launch {\n            _uiState.value = UserUiState.Loading\n            \n            userRepository.getUsers()\n                .onSuccess { users ->\n                    _uiState.value = UserUiState.Success(users)\n                }\n                .onFailure { error ->\n                    _uiState.value = UserUiState.Error(\n                        error.message ?: "Unknown error"\n                    )\n                }\n        }\n    }\n    \n    fun refreshUsers() {\n        loadUsers()\n    }\n    \n    fun onUserClick(user: User) {\n        _selectedUser.value = user\n    }\n    \n    fun deleteUser(user: User) {\n        viewModelScope.launch {\n            userRepository.deleteUser(user.id)\n                .onSuccess {\n                    // Refresh list after deletion\n                    loadUsers()\n                }\n                .onFailure { error ->\n                    // Show error snackbar\n                }\n        }\n    }\n}\n\n// Sealed class for type-safe UI state\nsealed class UserUiState {\n    object Loading : UserUiState()\n    data class Success(val users: List<User>) : UserUiState()\n    data class Error(val message: String) : UserUiState()\n}`,
+        language: "kotlin"
+      },
+      {
+        id: "repository-layer",
+        title: "Repository Layer Implementation",
+        content: "The Repository is the single source of truth for data. It coordinates between remote and local data sources, implements caching strategies, and provides a clean API for the ViewModel.\n\nThe Repository should:\n- Be the single source of truth\n- Coordinate multiple data sources\n- Implement caching and sync logic\n- Return Result types for error handling\n- Be independent of UI concerns",
+        code: `// Repository Interface\ninterface UserRepository {\n    suspend fun getUsers(): Result<List<User>>\n    suspend fun getUserById(id: String): Result<User>\n    suspend fun deleteUser(id: String): Result<Unit>\n    suspend fun saveUser(user: User): Result<Unit>\n}\n\n// Repository Implementation\nclass UserRepositoryImpl(\n    private val remoteDataSource: UserRemoteDataSource,\n    private val localDataSource: UserLocalDataSource\n) : UserRepository {\n    \n    override suspend fun getUsers(): Result<List<User>> {\n        return try {\n            // Try remote first\n            val remoteUsers = remoteDataSource.fetchUsers()\n            // Cache locally\n            localDataSource.saveUsers(remoteUsers)\n            Result.success(remoteUsers)\n        } catch (e: Exception) {\n            // Fallback to local cache\n            val cachedUsers = localDataSource.getUsers()\n            if (cachedUsers.isNotEmpty()) {\n                Result.success(cachedUsers)\n            } else {\n                Result.failure(e)\n            }\n        }\n    }\n    \n    override suspend fun getUserById(id: String): Result<User> {\n        return try {\n            val user = remoteDataSource.fetchUserById(id)\n            localDataSource.saveUser(user)\n            Result.success(user)\n        } catch (e: Exception) {\n            val cachedUser = localDataSource.getUserById(id)\n            if (cachedUser != null) {\n                Result.success(cachedUser)\n            } else {\n                Result.failure(e)\n            }\n        }\n    }\n    \n    override suspend fun deleteUser(id: String): Result<Unit> {\n        return try {\n            remoteDataSource.deleteUser(id)\n            localDataSource.deleteUser(id)\n            Result.success(Unit)\n        } catch (e: Exception) {\n            Result.failure(e)\n        }\n    }\n    \n    override suspend fun saveUser(user: User): Result<Unit> {\n        return try {\n            remoteDataSource.saveUser(user)\n            localDataSource.saveUser(user)\n            Result.success(Unit)\n        } catch (e: Exception) {\n            Result.failure(e)\n        }\n    }\n}`,
+        language: "kotlin"
+      },
+      {
+        id: "testing-mvvm",
+        title: "Testing MVVM Components",
+        content: "MVVM's separation of concerns makes testing straightforward. Each layer can be tested independently with proper mocking.\n\nTest strategies:\n- ViewModel: Test with fake Repository\n- Repository: Test with fake data sources\n- View: Use Compose testing utilities\n- Integration: Test layer interactions",
+        code: `// ViewModel Testing\nclass UserViewModelTest {\n    \n    private lateinit var viewModel: UserViewModel\n    private lateinit var fakeRepository: FakeUserRepository\n    \n    @Before\n    fun setup() {\n        fakeRepository = FakeUserRepository()\n        viewModel = UserViewModel(fakeRepository)\n    }\n    \n    @Test\n    fun loadUsers_success() = runTest {\n        // Given\n        fakeRepository.setUsers(listOf(\n            User("1", "Alice"),\n            User("2", "Bob")\n        ))\n        \n        // When\n        viewModel.loadUsers()\n        \n        // Then\n        val state = viewModel.uiState.value\n        assertTrue(state is UserUiState.Success)\n        assertEquals(2, (state as UserUiState.Success).users.size)\n    }\n    \n    @Test\n    fun loadUsers_error() = runTest {\n        // Given\n        fakeRepository.setShouldThrowError(true)\n        \n        // When\n        viewModel.loadUsers()\n        \n        // Then\n        val state = viewModel.uiState.value\n        assertTrue(state is UserUiState.Error)\n    }\n    \n    @Test\n    fun deleteUser_refreshesList() = runTest {\n        // Given\n        val user = User("1", "Alice")\n        fakeRepository.setUsers(listOf(user))\n        \n        // When\n        viewModel.deleteUser(user)\n        \n        // Then\n        val state = viewModel.uiState.value\n        assertTrue(state is UserUiState.Success)\n        assertEquals(0, (state as UserUiState.Success).users.size)\n    }\n}\n\n// Repository Testing\nclass UserRepositoryTest {\n    \n    @Test\n    fun getUsers_remoteSuccess() = runTest {\n        // Given\n        val fakeRemote = FakeRemoteDataSource(\n            users = listOf(User("1", "Alice"))\n        )\n        val fakeLocal = FakeLocalDataSource()\n        val repository = UserRepositoryImpl(fakeRemote, fakeLocal)\n        \n        // When\n        val result = repository.getUsers()\n        \n        // Then\n        assertTrue(result.isSuccess)\n        assertEquals(1, result.getOrThrow().size)\n        // Verify local was updated\n        assertEquals(1, fakeLocal.getUsers().size)\n    }\n    \n    @Test\n    fun getUsers_remoteFails_usesLocalCache() = runTest {\n        // Given\n        val fakeRemote = FakeRemoteDataSource(throwError = true)\n        val fakeLocal = FakeLocalDataSource(\n            cachedUsers = listOf(User("1", "Cached"))\n        )\n        val repository = UserRepositoryImpl(fakeRemote, fakeLocal)\n        \n        // When\n        val result = repository.getUsers()\n        \n        // Then\n        assertTrue(result.isSuccess)\n        assertEquals("Cached", result.getOrThrow()[0].name)\n    }\n}`,
+        language: "kotlin"
+      },
+      {
+        id: "conclusion",
+        title: "Conclusion",
+        content: "MVVM provides a clean, testable architecture for Android applications:\n\n1. View: Displays state, captures user actions (Composables)\n2. ViewModel: Holds state, processes actions, coordinates with Repository\n3. Repository: Single source of truth, coordinates data sources\n4. Data Sources: Remote (API) and Local (Database)\n\nBenefits:\n- Clear separation of concerns\n- Testable at each layer\n- Survives configuration changes\n- Unidirectional data flow\n- Easy to debug and maintain\n\nNext steps: Explore MVI for more predictable state management with explicit state machines."
       }
     ]
   }
