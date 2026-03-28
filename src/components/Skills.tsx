@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { playHoverSound } from "@/lib/sounds";
 
@@ -80,33 +79,6 @@ const cats = [
 ];
 
 export default function Skills() {
-  const [visibleItems, setVisibleItems] = useState<Set<string>>(new Set());
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute("data-skill-id");
-            if (id) {
-              setVisibleItems((prev) => new Set(prev).add(id));
-            }
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    return () => observerRef.current?.disconnect();
-  }, []);
-
-  const registerRef = (el: HTMLDivElement | null) => {
-    if (el && observerRef.current) {
-      observerRef.current.observe(el);
-    }
-  };
-
   return (
     <section id="skills" className="relative py-24 px-6">
       <div className="max-w-[1200px] mx-auto">
@@ -118,61 +90,51 @@ export default function Skills() {
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {cats.map((c, i) => {
-            const isVisible = visibleItems.has(c.title);
-            return (
-              <Reveal key={c.title} animation="fade-up" delay={i * 80}>
-                <div
-                  ref={registerRef}
-                  data-skill-id={c.title}
-                  className="glass p-6 group cursor-default"
-                  onMouseEnter={playHoverSound}
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div
-                      className="icon-glow"
-                      style={{ color: c.color }}
-                    >
-                      {c.icon}
-                    </div>
-                    <h3 className="text-lg font-semibold tracking-tight">
-                      {c.title}
-                    </h3>
-                  </div>
-
-                  <div className="space-y-2">
-                    {c.items.map((item, idx) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-3 group/item"
-                        style={{
-                          opacity: isVisible ? 1 : 0,
-                          transform: isVisible ? "translateX(0)" : "translateX(-10px)",
-                          transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.1}s`,
-                        }}
-                      >
-                        <div
-                          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                          style={{
-                            background: c.color,
-                            boxShadow: `0 0 6px ${c.color}40`,
-                          }}
-                        />
-                        <span className="text-sm text-[var(--text-secondary)] group-hover/item:text-[var(--text-primary)] transition-colors">
-                          {item}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
+          {cats.map((c, i) => (
+            <Reveal key={c.title} animation="fade-up" delay={i * 80}>
+              <div
+                className="glass p-6 group cursor-default"
+                onMouseEnter={playHoverSound}
+              >
+                <div className="flex items-center gap-4 mb-4">
                   <div
-                    className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
-                    style={{ background: c.color }}
-                  />
+                    className="icon-glow"
+                    style={{ color: c.color }}
+                  >
+                    {c.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold tracking-tight text-[var(--text-primary)]">
+                    {c.title}
+                  </h3>
                 </div>
-              </Reveal>
-            );
-          })}
+
+                <div className="space-y-2">
+                  {c.items.map((item, idx) => (
+                    <div
+                      key={item}
+                      className="flex items-center gap-3 group/item"
+                    >
+                      <div
+                        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{
+                          background: c.color,
+                          boxShadow: `0 0 6px ${c.color}40`,
+                        }}
+                      />
+                      <span className="text-sm text-[var(--text-secondary)] group-hover/item:text-[var(--text-primary)] transition-colors">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
+                  style={{ background: c.color }}
+                />
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
