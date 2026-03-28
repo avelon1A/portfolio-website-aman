@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "@/components/Footer";
 
 export default function OpenSourcePage() {
@@ -30,6 +31,30 @@ export default function OpenSourcePage() {
               {["Kotlin", "KMP", "Compose Multiplatform", "MavenCentral"].map((t) => (
                 <span key={t} className="pill">{t}</span>
               ))}
+            </div>
+
+            {/* Screenshots */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              <div className="glass p-2 rounded-xl overflow-hidden">
+                <Image
+                  src="https://assets.kiloapps.io/user_859f7f36-8820-4d0a-a6bb-fbf13b442a31/97324bf1-67fc-4c14-99cc-c7fed4fd4100/01e0b0de-3b0d-467a-be8e-ccc187d57049.png"
+                  alt="Network Logger SDK - Dashboard View"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto rounded-lg"
+                  unoptimized
+                />
+              </div>
+              <div className="glass p-2 rounded-xl overflow-hidden">
+                <Image
+                  src="https://assets.kiloapps.io/user_859f7f36-8820-4d0a-a6bb-fbf13b442a31/97324bf1-67fc-4c14-99cc-c7fed4fd4100/1154934f-5724-477c-b884-97579b198759.png"
+                  alt="Network Logger SDK - Request Details"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto rounded-lg"
+                  unoptimized
+                />
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-2 mb-12">
